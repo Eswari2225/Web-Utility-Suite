@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <style>
+        body{
+            background-color: darkblue;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #form{
+            
+            height: 30vh;
+            min-height: 280px;
+            background-color:lightcoral;
+            width: 500px;
+            margin: 200px auto 0 auto ;
+            border: 3.5px solid gold ;
+            padding-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        #form p {
+            text-align: center;
+        }
+
+        .insideform{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-size: 20px;  
+        }
+
+         button{
+            margin-top: 10px;
+            align-self:center;
+            cursor: pointer;
+        }
+        
+        h1{
+            text-align: center;
+            color:rgb(13, 13, 101);
+            margin-bottom: 10px;
+
+        }
+
+        .input-whole{
+            display: flex;
+            flex-direction: column;
+            margin: 3px;
+            
+        }
+
+        input{
+            width: 250px;
+        }
+
+        .error-message {
+            color: darkred;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <form id="form">
+            <h1>Login</h1>
+            <div class="insideform">
+                <div class="input-whole">    
+                     <label for="email" >Email</label>
+                     <input type="email" name="email" id="email" placeholder="Enter your Email" required>
+                  
+                </div>
+
+                <div class="input-whole">
+                     <label for="password">Password</label>
+                     <input type="password" name="password" id="password" placeholder="Enter your Password" required>
+                  
+                </div>
+              
+                <button type="submit">Login</button>
+                <p id="error-msg" class="error-message"></p>
+                <p>Don't have an account? <a href="signUp.html">Register here</a></p>
+
+            </div>   
+
+        </form>
+   </div>
+</body>
+
+<script>
+    // If user is already logged in, redirect to projects page
+    if (localStorage.getItem('loggedInUser')) {
+        window.location.href = 'projects.html';
+    }
+
+    const form = document.getElementById('form');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const errorMsg = document.getElementById('error-msg');
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        const enteredEmail = emailInput.value;
+        const enteredPassword = passwordInput.value;
+
+        if (storedUser && storedUser.email === enteredEmail && storedUser.password === enteredPassword) {
+            // Login successful
+            localStorage.setItem('loggedInUser', enteredEmail);
+            window.location.href = 'projects.html';
+        } else {
+            // Login failed
+            errorMsg.textContent = 'Invalid email or password. Please try again.';
+        }
+    });
+</script>
+</html>

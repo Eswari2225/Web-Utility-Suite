@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AzureStay - Hotel Management System (Demo)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --accent:#2563eb;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.6);
+      --shadow: 0 6px 18px rgba(30,41,59,0.08);
+      --radius:14px;
+      font-family: 'Inter', system-ui, Helvetica, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#eef2ff);color:#0f172a}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:transparent}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:var(--shadow)}
+    .brand h1{margin:0;font-size:1.1rem}
+    nav{display:flex;gap:14px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600}
+    nav a.call-to-action{background:var(--accent);color:white}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 480px;gap:32px;padding:44px 28px;align-items:center}
+    .hero-left h2{font-size:2rem;margin:0 0 12px}
+    .hero-left p{margin:0 0 18px;color:var(--muted);line-height:1.6}
+    .search-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);display:flex;gap:8px;align-items:center}
+    .search-card input, .search-card select{border:1px solid #e6e9f2;padding:10px;border-radius:8px;flex:1}
+    .search-card button{background:var(--accent);color:white;padding:10px 14px;border-radius:8px;border:0;cursor:pointer}
+
+    .hero-right{display:flex;flex-direction:column;gap:12px}
+    .stat{background:linear-gradient(180deg,#fff, #f8fafc);padding:14px;border-radius:12px;box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center}
+
+    /* Rooms grid */
+    .section{padding:28px}
+    .section h3{margin:0 0 12px}
+    .rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .room{background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--shadow);overflow:hidden}
+    .room img{width:100%;height:140px;object-fit:cover;border-radius:8px}
+    .room h4{margin:8px 0 6px}
+    .room p{margin:0;color:var(--muted);font-size:0.95rem}
+    .tags{display:flex;gap:8px;margin:10px 0}
+    .tag{background:#eef2ff;color:var(--accent);padding:6px 8px;border-radius:999px;font-weight:600;font-size:0.85rem}
+    .room .actions{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .btn{padding:8px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    .btn.secondary{background:transparent;border:1px solid #e6e9f2}
+    .btn.primary{background:var(--accent);color:white}
+
+    /* About + Contact */
+    .two-col{display:grid;grid-template-columns:1fr 320px;gap:18px}
+    .contact-card{background:var(--card);padding:16px;border-radius:12px;box-shadow:var(--shadow)}
+
+    footer{padding:24px;text-align:center;color:var(--muted)}
+
+    /* Modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.45);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal{background:var(--card);padding:18px;border-radius:12px;max-width:520px;width:100%;box-shadow:0 30px 60px rgba(2,6,23,0.35)}
+    .modal h4{margin-top:0}
+    .modal form{display:grid;gap:8px}
+
+    /* responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      .two-col{grid-template-columns:1fr}
+      nav{display:none}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">AS</div>
+      <div>
+        <h1>AzureStay</h1>
+        <div style="font-size:12px;color:var(--muted)">Hotel Management Demo</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#rooms">Rooms</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#" class="call-to-action">Admin Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <h2>Manage bookings, rooms and guests — in one sleek interface</h2>
+        <p>AzureStay is a lightweight, responsive demo website that shows the front-end of a hotel management system. Use it to prototype booking flows, show room lists, and collect guest information for later integration.</p>
+
+        <div class="search-card" role="search">
+          <input id="search-location" placeholder="City or Hotel name" />
+          <input id="checkin" type="date" />
+          <input id="checkout" type="date" />
+          <select id="guests"><option>1 Guest</option><option>2 Guests</option><option>3 Guests</option></select>
+          <button onclick="searchRooms()">Search</button>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:16px">
+          <div class="stat">
+            <div>
+              <div style="font-size:12px;color:var(--muted)">Total Rooms</div>
+              <div style="font-weight:700;font-size:20px">128</div>
+            </div>
+            <div style="font-size:28px;color:var(--accent)">🏨</div>
+          </div>
+
+          <div class="stat">
+            <div>
+              <div style="font-size:12px;color:var(--muted)">Booked Today</div>
+              <div style="font-weight:700;font-size:20px">32</div>
+            </div>
+            <div style="font-size:28px;color:#ef4444">📅</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="contact-card">
+          <h4 style="margin:0 0 6px">Quick Booking</h4>
+          <p style="margin:0 0 10px;color:var(--muted)">Fill guest details and reserve a room instantly (demo — no backend).</p>
+          <form id="quick-book" onsubmit="event.preventDefault(); openBookingModalFromForm();" style="display:grid;gap:8px">
+            <input id="guest-name" placeholder="Guest name" required />
+            <input id="guest-email" type="email" placeholder="Email" required />
+            <div style="display:flex;gap:8px">
+              <select id="room-type-quick" style="flex:1"><option>Deluxe</option><option>Suite</option><option>Standard</option></select>
+              <button class="btn primary" type="submit">Reserve</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="contact-card">
+          <h4 style="margin:0 0 6px">Today's Arrivals</h4>
+          <p style="margin:0;color:var(--muted)">5 arrivals expected today — check-in window: 2 PM - 10 PM</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="rooms" class="section">
+      <h3>Available Rooms</h3>
+      <div class="rooms" id="rooms-grid">
+
+        <!-- Room Card (repeat) -->
+        <div class="room">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Deluxe Room" />
+          <h4>Deluxe Room</h4>
+          <p>Spacious room with king-size bed, complimentary breakfast and free Wi-Fi.</p>
+          <div class="tags"><span class="tag">King Bed</span><span class="tag">Free Wi-Fi</span></div>
+          <div class="actions">
+            <span style="font-weight:700">₹3,499 / night</span>
+            <div>
+              <button class="btn secondary" onclick="viewDetails('Deluxe Room')">Details</button>
+              <button class="btn primary" onclick="openBookingModal('Deluxe Room',3499)">Book</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="room">
+          <img src="https://images.unsplash.com/photo-1501117716987-c8e24f6b8ef8?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Suite" />
+          <h4>Executive Suite</h4>
+          <p>Stylish suite with living area, work desk and panoramic city views.</p>
+          <div class="tags"><span class="tag">Suite</span><span class="tag">City View</span></div>
+          <div class="actions">
+            <span style="font-weight:700">₹6,999 / night</span>
+            <div>
+              <button class="btn secondary" onclick="viewDetails('Executive Suite')">Details</button>
+              <button class="btn primary" onclick="openBookingModal('Executive Suite',6999)">Book</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="room">
+          <img src="https://images.unsplash.com/photo-1505691723518-36a73a3a9e2b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Standard" />
+          <h4>Standard Room</h4>
+          <p>Comfortable and affordable room for short stays. Includes breakfast.</p>
+          <div class="tags"><span class="tag">Affordable</span><span class="tag">Breakfast</span></div>
+          <div class="actions">
+            <span style="font-weight:700">₹2,199 / night</span>
+            <div>
+              <button class="btn secondary" onclick="viewDetails('Standard Room')">Details</button>
+              <button class="btn primary" onclick="openBookingModal('Standard Room',2199)">Book</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h3>About AzureStay</h3>
+      <div class="two-col">
+        <div>
+          <p style="color:var(--muted)">AzureStay is a demo front-end for a hotel management system. In a full implementation, it would connect to a backend API for booking, check-in/out, payments, inventory and reports. The layout here is created to be easy to integrate with any server-side technology (Node.js, Django, PHP, Java Spring, etc.).</p>
+
+          <ul style="color:var(--muted)">
+            <li>Room catalogue & booking</li>
+            <li>Quick booking form</li>
+            <li>Guest contact collection</li>
+            <li>Admin login (placeholder)</li>
+          </ul>
+        </div>
+        <div class="contact-card">
+          <h4>Contact & Support</h4>
+          <p style="color:var(--muted);margin:6px 0">Email: support@azurestay.example</p>
+          <p style="color:var(--muted);margin:6px 0">Phone: +91 98765 43210</p>
+          <button class="btn primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get in touch</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h3>Contact</h3>
+      <div class="contact-card">
+        <form onsubmit="event.preventDefault(); alert('Thanks — demo contact submitted');">
+          <input placeholder="Your name" required />
+          <input type="email" placeholder="Email" required />
+          <textarea placeholder="Message" rows="4" style="resize:none;padding:8px;border-radius:8px;border:1px solid #eef2f6"></textarea>
+          <div style="margin-top:8px">
+            <button class="btn primary" type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    AzureStay • Demo Hotel Management System • Designed for prototyping
+  </footer>
+
+  <!-- Booking Modal -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h4 id="modal-title">Book Room</h4>
+      <form id="booking-form" onsubmit="event.preventDefault();confirmBooking()">
+        <div style="display:flex;gap:8px">
+          <input id="book-name" placeholder="Guest name" required style="flex:1" />
+          <input id="book-phone" placeholder="Phone" required style="width:140px" />
+        </div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <input id="book-checkin" type="date" required />
+          <input id="book-checkout" type="date" required />
+        </div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <input id="card-number" placeholder="Card (demo)" required />
+          <input id="promo" placeholder="Promo code" />
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+          <div style="color:var(--muted)" id="modal-price">₹0 / night</div>
+          <div>
+            <button type="button" class="btn secondary" onclick="closeModal()">Cancel</button>
+            <button type="submit" class="btn primary">Confirm</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function searchRooms(){
+      alert('Search is demo-only — try booking a sample room below.');
+    }
+    function viewDetails(name){
+      alert(name + "\n\nThis demo shows a simple room card. In a real system you'd open a detail page with photos, amenities and reviews.");
+    }
+    function openBookingModal(type, price){
+      document.getElementById('modal-price').textContent = '₹' + price + ' / night';
+      document.getElementById('modal').style.display = 'flex';
+      // prefill name from quick-book if available
+      const name = document.getElementById('guest-name').value;
+      if(name) document.getElementById('book-name').value = name;
+    }
+    function openBookingModalFromForm(){
+      const type = document.getElementById('room-type-quick').value;
+      openBookingModal(type, 3499);
+    }
+    function closeModal(){document.getElementById('modal').style.display='none'}
+    function confirmBooking(){
+      // Demo confirmation
+      const guest = document.getElementById('book-name').value;
+      const price = document.getElementById('modal-price').textContent;
+      alert('Booking confirmed for ' + guest + '\n' + price + '\n(This is a front-end demo — no real payment was taken)');
+      closeModal();
+    }
+
+    // Accessibility: close modal on Escape
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>

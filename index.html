@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading Project...</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background-color: #f6f8fb; text-align: center; padding-top: 50px; color: #6b7280; }
+    </style>
+    <script>
+        // This script acts as a simple router.
+        // It checks if the user is logged in and redirects them to the appropriate page.
+        if (localStorage.getItem('loggedInUser')) {
+            // If a user is logged in, go to the projects page.
+            window.location.href = 'projects.html';
+        } else {
+            // If no user is logged in, go to the login page.
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting, please wait...</p>
+</body>
+</html>

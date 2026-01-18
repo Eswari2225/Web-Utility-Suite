@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #input{
+            width: 500px;
+            height: 50px;
+            border: 5px solid brown;
+        }
+        .done{
+            text-decoration: line-through;
+            color:black;
+        }
+        body{
+            background-color:#EAD196;
+        }
+
+        .full{
+            display:flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+        .container{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+        }
+
+        .hello {
+            background-color: gray;
+            color: maroon;
+            display:block;
+            margin: 8px 0px;
+            padding-left: 20px;
+            border-radius: 20px;
+            width: 100%;
+            font-size: 50px;
+        }
+        button{
+            border-radius: 10px;
+            color: #BF3131;
+            height: 30px;
+            width: 100px;
+        }
+        h1{
+            font-style:bold;
+            font-size: 100px;
+            color: maroon;
+        }
+        
+        
+    </style>
+
+</head>
+<body>  
+    
+    <div class="full">
+        <div class="container">
+            <h1>TO DO LIST</h1>
+            <input id="input" value=" " >
+            <button onclick="print()">Add</button>
+    
+             <ul id="ul">
+                 <li class="hello">hello
+                     <button onclick="delet(event)">delete</button>
+                     <button onclick = "done(event)"> done </button>
+                 </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    var input = document.getElementById("input")
+    var ul = document.getElementById("ul")
+
+
+    function print()
+    {
+        var list = document.createElement("li")
+        list.className="hello"
+        list.innerHTML=(input.value) + ("<button onclick = 'delet(event)'> delete </button>") +  ("<button onclick = 'done(event)'> done </button>")
+        ul.append(list)
+
+    }
+
+    function delet(event)
+    {
+            event.target.parentElement.remove()
+    }
+
+    function done(event){
+        event.target.parentElement.classList.toggle("done")
+    }
+
+</script>

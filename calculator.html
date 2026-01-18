@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <style>
+        #numbers{
+            display: inline-grid;
+            border: 3px solid black;
+            background-color:BLUE;
+            padding: 5px;
+            align-items: center;
+            height: 100;
+            margin: 55px;
+            border-radius: 10px;
+        }
+
+        .class1,.class2,.class3,.class4,#others{
+            border:solid blue 10px;
+            text-align: center;    
+        }
+
+        button{
+            color: brown;
+            background-color: burlywood;
+            font-size: 25px;
+            width: 70px;     
+        }
+
+        #in{
+            background-color: bisque;
+            height: 50px;
+            border: 5px solid black;
+            font-size: 40px;
+            text-align: center;
+            margin: 20px;
+            width: 390px;
+        }
+
+        .full{
+            padding: 10px;
+            border: 10px solid black;
+            border-radius: 10px;
+        }
+
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="full">
+        <div id="input"><input id="in" value=""></div>
+        <div id="numbers">
+            <div class="class1">
+                <button id="seven" onclick="typeNum(event)">7</button>
+                <button id="eight" onclick="typeNum(event)">8</button>
+                <button id="nine" onclick="typeNum(event)">9</button>
+                <button onclick="typeNum(event)">/</button>
+            </div>
+            <div class="class2">
+                <button id="four" onclick="typeNum(event)">4</button>
+                 <button id="five" onclick="typeNum(event)">5</button>
+                 <button id="six" onclick="typeNum(event)">6</button>
+                 <button onclick="typeNum(event)">*</button>
+            </div>  
+            <div class="class3">
+                 <button id="one" onclick="typeNum(event)">1</button>
+                 <button id="two" onclick="typeNum(event)">2</button>
+                 <button id="three" onclick="typeNum(event)">3</button>
+                 <button onclick="typeNum(event)">-</button>
+            </div> 
+            <div class="class4">
+                <button id="zero" onclick="typeNum(event)">0</button>
+                <button id="dot" onclick="typeNum(event)">.</button>
+                <button>e</button>i
+                <button onclick="typeNum(event)">+</button>
+            </div>
+         
+           <div id="others">
+                <button id="clear" onclick="deletes(event)">AC</button>
+                 <button onclick="calculate()">=</button>
+           </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    var number = document.getElementById("numbers");
+    var input = document.getElementById("in");
+
+    function typeNum(event){
+
+    input.value += event.target.innerText;
+    }
+    function deletes(event){
+        input.value = " ";
+    }
+    function calculate(){
+        input.value = input.value+ "="  + eval(input.value)
+    }
+
+</script>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+
+    <style>
+        body{
+            background-color:#e293b1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #form{
+            width: 400px;
+            margin: 15vh auto 0 auto;
+            background-color:#edf7f8;
+            border-radius: 10px;
+            padding: 10px;
+            border: 2px solid ;
+        }
+
+        #form p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        h1{
+            text-align: center;
+            color:darkred;
+        }
+
+        button{
+            background-color:maroon;
+            border-radius: 10px;
+            border: solid  ;
+            padding: 3px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            width: 100%;
+            color: #FF90BB;
+            font-weight: bold;
+        }
+
+        .input-group{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+
+        }
+
+        .input-group input{
+            border-radius: 2px;
+            font-size: 20px;
+            margin-top: 5px;
+            padding: 2px;
+
+        }
+
+        .error{
+            color: red;
+            font-size: 15px;
+        
+        }
+
+        .input-group.success input{
+            
+            border: 3px solid green;
+        }
+
+        .input-group.error input{
+            border: 3px solid red;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <form action="" id="form">
+         <h1>Register Form</h1>
+         <div class="input-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name">
+            <div class="error"></div>
+         </div>
+
+         <div class="input-group">
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email">
+            <div class="error"></div>
+         </div>
+
+         <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+            <div class="error"></div>
+         </div>
+
+         <div class="input-group">
+            <label for="cpassword">Confirm password</label>
+            <input type="password" id="cpassword" name="cpassword">
+            <div class="error"></div>
+         </div>
+         <button type="submit">Register</button>
+         <p>Already have an account? <a href="login.html">Login here</a></p>
+
+     </form> 
+</div>
+</body>
+<script>
+    const form=document.getElementById("form")   
+    const name=document.getElementById("name")
+    const email=document.getElementById("email")
+    const password=document.getElementById("password")
+    const cpassword=document.getElementById("cpassword")
+
+    form.addEventListener("submit",(event)=>{
+        event.preventDefault()
+        if (validateInputs()) {
+            // In a real app, you'd send this to a server.
+            // For this demo, we'll use localStorage.
+            const emailval = email.value.trim();
+            const passwordval = password.value.trim();
+
+            // Storing a simple user object. For multiple users, you'd use an array.
+            localStorage.setItem('user', JSON.stringify({ email: emailval, password: passwordval }));
+            localStorage.setItem('loggedInUser', emailval);
+
+            alert('Registration successful! Redirecting to projects page...');
+            window.location.href = 'projects.html';
+        }
+    })
+
+    function validateInputs(){
+        const nameval = name.value.trim()
+        const emailval = email.value.trim()
+        const passwordval = password.value.trim()
+        const cpasswordval = cpassword.value.trim()
+
+        let isSuccess = true;
+
+        if(nameval===''){
+            setError(name,'*Name is required')
+            isSuccess = false;
+        }
+        else{
+            setSuccess(name)
+        }
+
+        if(emailval===''){
+            setError(email, '*email is required')
+            isSuccess = false;
+        }
+        else if(!validateEmail(emailval)){
+            setError(email,'*please enter valid email')
+            isSuccess = false;
+        }
+        else{
+            setSuccess(email)
+        }
+
+        if(passwordval===''){
+            setError(password,'*password is required')
+            isSuccess = false;
+        }
+        else if(passwordval.length<8){
+            setError(password,'*password should be atleast 8 characters')
+            isSuccess = false;
+        }
+        else{
+            setSuccess(password)
+        }
+
+        if(cpasswordval===''){
+            setError(cpassword,'*confirm password is required')
+            isSuccess = false;
+        }
+        else if(cpasswordval !== passwordval){
+            setError(cpassword,'*password is not same')
+            isSuccess = false;
+        }
+        else{
+            setSuccess(cpassword)
+        }
+        return isSuccess;
+    }   
+
+    function setError(element, message) {
+    const parentele = element.parentElement;
+    const errorElement = parentele.querySelector('.error');
+
+    errorElement.innerText = message;
+    parentele.classList.add('error');
+    parentele.classList.remove('success');
+}
+
+function setSuccess(element) {
+    const parentele = element.parentElement;
+    const errorElement = parentele.querySelector('.error');
+
+    errorElement.innerText = '';
+    parentele.classList.add('success');
+    parentele.classList.remove('error');
+}
+
+    const validateEmail = (email) =>{
+
+        return String(email)
+        .toLowerCase()
+        .match(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/   
+          );
+    };
+</script>
+</html>

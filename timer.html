@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>timer</title>
+    <style>
+        #timer {
+            border: 5px solid red;
+
+    border-radius: 20px;
+    padding-left:25px;
+    padding-right: 25px;
+    display: flex;
+    color: red;
+    height: 200px;
+    background-color: black;
+    justify-content: center;  
+    align-items: center;   
+    font-size: 150px;
+    
+}
+        #timer-outer{
+    display: flex;
+    background-color: yellow;
+    justify-content: center;  
+    align-items: center;   
+    font-size: 150px;
+    height: 100vh; 
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="timer-outer">
+        <div id="timer">00:00:00</div>
+    </div>
+</body>
+
+<script>
+    var timer = document.getElementById("timer")
+    function increase(){
+        const dates = new Date()
+         var hr= dates.getHours()
+         var mi= dates.getMinutes()
+         var se= dates.getSeconds()
+          hr = hr<10?("0"+hr):hr
+          mi = mi<10?("0"+mi):mi
+          se = se<10?("0"+se):se
+         timer.innerText=`${hr}:${mi}:${se}`
+    }
+    increase()
+    setInterval(increase,1000)
+</script>
+</html>
